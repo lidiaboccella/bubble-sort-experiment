@@ -11,6 +11,7 @@ Outputs:
     - figures/boxplots_<arrangement>.png: One figure per input arrangement.
       Each figure contains panels per array size showing the box plots of
       the three algorithms.
+    - figures/medians.png: median execution time vs array size.
 
 Usage:
     Run from the repository root (ensure dependencies in requirements.txt
@@ -60,3 +61,16 @@ for arrangement in arrangements:
     g.set_xticklabels(["Pass\nPerItem", "Until\nNoChange", "While\nNeeded"])
     g.figure.suptitle(f"Input: {arrangement}", y=1.04)
     g.savefig(f"figures/boxplots_{arrangement.lower()}.png", dpi=200, bbox_inches="tight")
+
+# --- Median execution time vs array size -----------------------------------
+
+# One panel per arrangement; log-log axes, so that quadratic growth
+# appears as a straight line with a steeper slope than linear growth.
+g = sns.relplot(data=df, x="size", y="time_ms", hue="algorithm", hue_order=algorithms,
+                col="arrangement", col_order=arrangements, kind="line",
+                estimator="median", errorbar=None, marker="o",
+                facet_kws={"sharey": False}, height=3.5, aspect=0.9)
+g.set(xscale="log", yscale="log")
+g.set_titles("{col_name}")
+g.set_axis_labels("Array size (n, log scale)", "Median time (ms, log scale)")
+g.savefig("figures/medians.png", dpi=200, bbox_inches="tight")
