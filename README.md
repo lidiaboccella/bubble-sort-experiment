@@ -39,6 +39,18 @@ The program writes `data/results.csv`, one row per measurement:
 - `data/pilot_results.csv`: raw data of a pilot run performed with other
   applications open, kept for transparency.
 
+## Analysis
+Requires Python 3 with the packages listed in `requirements.txt`:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python analysis/analysis.py
+```
+
+This produces `analysis/five_number_summary.csv` and the box plots in `figures/`.
+
 ## Experimental setup
 - Machine: MacBook Pro 14" (2023), Apple M3 Pro (11 cores), 18 GB RAM, macOS 27.0.1
 - Input arrays are permutations of the integers 1..n (`Integer[]`),
