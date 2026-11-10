@@ -74,3 +74,13 @@ g.set(xscale="log", yscale="log")
 g.set_titles("{col_name}")
 g.set_axis_labels("Array size (n, log scale)", "Median time (ms, log scale)")
 g.savefig("figures/medians.png", dpi=200, bbox_inches="tight")
+
+# --- Tables for the report -------------------------------------------------
+
+# One table per arrangement, values in ms rounded to 4 significant digits
+table = summary.drop(columns="count").reset_index()
+table.columns = ["Arrangement", "n", "Algorithm", "Min", "Q1", "Median", "Q3", "Max"]
+for arrangement in arrangements:
+    t = table[table["Arrangement"] == arrangement].drop(columns="Arrangement")
+    t.to_csv(f"analysis/table_{arrangement.lower()}.csv", index=False, float_format="%.4g")
+    
